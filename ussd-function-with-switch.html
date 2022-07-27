@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USSD with Switch</title>
+</head>
+<body>
+<div style="display:flex;justify-content:center; ">
+    <div style="width:100%;max-width:500px;">
+        <h1>USSD Program</h1>
+        <form action=""  onsubmit="return getUssdCode(document.getElementById('number'))" >
+            <label for="">Enter Ussd Code</label>
+            <input type="text" name="number" id="number" placeholder="*737#"> 
+            <input type="submit" value="Send" >
+        </form>
+</div>
+
+<script>
+let usdCodes = {'1':'Airtime self', '2':'Airtime others', '3' : 'Data', '7' : 'Transfer'};
+let availableNetwork = {'1':'MTN', '2':'GLO', '3' : 'Airtel', '4' : 'Etisalat'};
+let dataAvailable = {'1':['10MB','N100'], '2':['100MB','N200'], '3':['1GB','N1000'], '4':['2GB','N1500']};
+let allBanks = {'1':'Kuda Microfinance Bank', '2':'First Bank Plc', '3' : 'Wema Bank', '7' : 'Access bank'};
+let bankTransferType = {'1':'GTBank Plc', '2':'Other Banks'};
+
+
+
+// function getUssdCode(number){
+    function getUssdCode(code){
+        if(code.value=='*737#'){
+            display();
+        }else{
+            alert('Only *737# is allowed');
+        }
+    }
+
+
+// Root Function to display USSD Transaction
+function display(){
+    let usdOption = checkDataRecord('Select an option', usdCodes);
+    switch(usdOption){
+        case '1' :
+            airtimeSelf();
+            break;
+        case '2' :
+            airtimeOther();
+            break;
+        case '3' :
+            getPhoneToSendData();
+            break;
+        case '7' :
+            transferTo();
+            break;
+        default :
+            alert("Invalid Option Selected, Select from available option");
+            display();
+            break;
+     }
+}
+
+// Function to get Data From User
+function getData(message){
+    let dataStatus = prompt(message);
+    if(dataStatus){
+        return dataStatus.trim();
+    }else{
+        alert("Transaction Cancelled");
+        return False;
+    }
+}
+
+// Functions To loop through Object and return value
+// argument message is the message to display to user while data is the object to loop through
+
+function checkDataRecord(message, data){
+    let allCode='';
+    for(let keys in data){
+        allCode = allCode + `${keys}. ${data[keys]} \n`;
+    }
+let dataOptions = `${message}
+${allCode}
+`;
+    return getData(dataOptions);
+}
+ 
+// Function to display USSD Transaction
+function airtimeSelf(){  // Airtime self
+    let prompts = getData("Enter amount to recharge");
+    let prompt = Number(prompts);
+    let currency = prompt.toLocaleString("en-US", {style:"currency", currency:"NGN"});
+
+    if(confirm(`Are you sure you want to recharge your line with ${currency}?`)){
+        return alert(`You Have Successfully recharge your line with ${currency}`);
+    }else{
+        return alert("Transaction Cancelled");
+    }
+}
+
+// function to get Phone number and Network to recharge
+function airtimeOther(){
+    let phoneToRecharge = getData('Enter Phone number to Recharge');
+    if(phoneToRecharge.length==11){ // Check if phone number is 11 digits
+
+        let checkNetworkList = checkDataRecord("Select Phone Network ", availableNetwork); 
+        if(checkNetworkList in availableNetwork  !='' ){ // check selected network is available in the option
+            return airtimeAmount(phoneToRecharge);  // initialize airtimeAmount function
+        }else{
+            alert("Invalid Option Selected, Please Try Again");
+            return airtimeOther();
+        } 
+    }else{
+        alert("Invalid Phone Number, Try Again");
+        return  airtimeOther() //
+    }
+}
+
+// function to send credit to the number
+function airtimeAmount(number){
+    let phoneToRecharge = number;
+    let amountToRecharge = getData('Enter amount to recharge');
+             if(amountToRecharge>=50){  // check if amount is greater than 50
+                if(confirm(`Are you sure you want to recharge ${phoneToRecharge} with N${amountToRecharge}?`)){
+                    return alert(`You Have Successfully recharge ${phoneToRecharge} with N${amountToRecharge}`);
+                }else{
+                    return  alert("Transaction Cancelled");
+                } 
+            }else{
+                alert("Minimum recharge is N50");
+                return   airtimeAmount(phoneToRecharge);
+            }
+}
+
+// Get list of all available Data Plan.
+function dataOptAvail(){
+    let all='';
+        for(let key in dataAvailable){
+            all = all + `${key}. ${dataAvailable[key][0]} for ${dataAvailable[key][1]}\n`;
+        }
+let dataOption = `Select available data option
+${all}
+`;
+    return getData(dataOption);
+}
+
+
+// get phone and network to send data
+function getPhoneToSendData(){
+        let phoneToData = getData('Enter Phone number to Recharge Data For');
+    if(phoneToData.length==11){ // check if phone number is 11 digits
+
+        let checkNetworkList = checkDataRecord("Select Phone Network ", availableNetwork);
+        if(checkNetworkList in availableNetwork  !='' ){ // check selected network is available in the option
+            return SendData(phoneToData);  // initialize SendData function
+        }else{
+            alert("Invalid Option Selected, Please Try Again");
+            return getPhoneToSendData();
+        } 
+    }else{
+        alert("Invalid Phone Number, Try Again");
+        return  getPhoneToSendData() // call getPhoneToSendData function again
+    }
+}
+// function to send data to the number
+function SendData(phoneToSendData){
+    let phoneToData = phoneToSendData;
+    let dataOptionAnswer = dataOptAvail(); // get list of all available Data Plan.
+        if(dataOptionAnswer in dataAvailable  !='' ){ // check if value input exist in object of option available
+
+                if(confirm(`Are you sure you want to recharge ${phoneToData} with  ${dataAvailable[dataOptionAnswer][0]} at  ${dataAvailable[dataOptionAnswer][1]}?`)==true){
+                    return alert(`${phoneToData} recharged with ${dataAvailable[dataOptionAnswer][0]} successfully`);
+                }else{
+                    return  alert("Transaction Cancelled");
+                }
+        }else{
+            alert("Invalid Option Selected, Select from available option");
+            return SendData(phoneToData); // initialize SendData function if invalid option selected (Recursion)
+        }
+}
+
+// function to Transfer Money
+function transferTo(){
+    let getTransferType = checkDataRecord("Transfer Option:", bankTransferType);  // get transfer type
+        if(getTransferType == '1'){
+            return transferToGtBank(); // initialize transferToGtBank function
+        }else if(getTransferType == '2'){
+            return transferToOther(); // initialize transferToOther function
+        }else{
+            alert("Invalid Option Selected, Select from available option");
+            return transferTo(); // initialize transferTo function if invalid option selected (Recursion)
+        }
+}
+ // Transfer to GTBank
+ function transferToGtBank(){
+    return transfer('GtBank Plc');
+}
+// Transfer to other bank
+function transferToOther(){
+    let checkBankList = checkDataRecord("Select bank ", allBanks);
+        if(checkBankList in allBanks  !='' ){ // check if value selected correspond to data available.
+              return transfer(allBanks[checkBankList]); // initialize transfer function
+        }else{
+            alert("Invalid Option Selected, Select from available option");
+            return transferToOther(); // initialize transferToOther function if invalid option selected (Recursion)
+        }
+}
+
+// function to transfer money to the bank
+function transfer(bankToSendTransfer){
+    let selectedBank = bankToSendTransfer;
+    let selectAccountNumber  = getData('Enter Account Number'); // get account number to transfer money to
+    if(selectAccountNumber.length==10){ // check if account number is 10 digits
+        let fullNameOfSelectedAccount   = getDummyAccountName(); // get full name of account to transfer money to
+        let amountToTransfer            = getData('Enter Amount to Transfer'); // get amount to transfer
+            if(confirm(`Account Name: ${fullNameOfSelectedAccount}`)==true){  // Verify User Account Name
+                if(confirm(`Are you sure you want to transfer ${amountToTransfer} to  ${selectedBank} - ${fullNameOfSelectedAccount} (${selectAccountNumber})`)==true){
+                    return  alert(`N${amountToTransfer} was successfully transferred to ${selectedBank} - ${fullNameOfSelectedAccount}`);
+                }else{
+                    return  alert("Transaction Cancelled");
+                }
+            }else{
+                return transfer(selectedBank); // Recursion if user input is invalid
+            }
+    }else{
+        alert("Invalid Account Number, Try Again");
+        return transfer(selectedBank); // initialize transfer function if invalid account number entered (Recursion)
+    }
+}
+function getDummyAccountName(){
+    return "Isaac Toyin";
+}
+
+    </script>
+</body>
+</html>

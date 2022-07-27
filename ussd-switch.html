@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+<script>
+let data = `Select an option 
+  1. Airtime self
+  2. Airtime others
+  3. Data
+  4. Transfer
+`;
+        let dataAnswer = Number(prompt(data));
+switch (dataAnswer) {
+    case 1: // Airtime self
+        let amountToRecharge = Number(prompt('Enter amount to recharge'));
+        if (amountToRecharge) {
+            alert(`You Have Successfully recharge your line with N${amountToRecharge}`);
+        } else {
+            alert(`Invalid amount`);
+            alert("Transaction Cancelled");
+        }
+    break;
+    case 2:  // Airtime others
+        let phoneToRecharge = Number(prompt('Enter Phone number to Recharge'));
+        if (phoneToRecharge) {
+            let amountToRecharge = Number(prompt('Enter amount to recharge'));
+            if (amountToRecharge) {
+                alert(`You Have Successfully recharge ${phoneToRecharge} with N${amountToRecharge}`);
+            } else {
+                alert(`Invalid amount`);
+                alert("Transaction Cancelled");
+            }
+        } else {
+            alert("Transaction Cancelled");
+        }
+    break;
+    case 3: // Option For Data Recharge
+        let phoneToData = Number(prompt('Enter Phone number to Recharge Data For'));
+        if (phoneToData) {
+
+    let dataOption = `Select available data option
+1. 10MB for N100.
+2. 100MB for N200.
+3. 1GB for N1000.
+4. 2GB for N1500.
+`;
+            let dataOptionAnswer = Number(prompt(dataOption));
+            if (dataOptionAnswer == 1) {
+                if (confirm(`Are you sure you want to recharge ${phoneToData} with 10MB at N100?`) == true) {
+                    alert(`${phoneToData} recharged with 10MB successfully`);
+                } else {
+                    alert("Transaction Cancelled");
+                }
+            } else if (dataOptionAnswer == 2) {
+                if (confirm(`Are you sure you want to recharge ${phoneToData} with 100MB at N200?`) == true) {
+                    alert(`${phoneToData} recharged with 100MB successfully`);
+                } else {
+                    alert("Transaction Cancelled");
+                }
+            } else if (dataOptionAnswer == 3) {
+                if (confirm(`Are you sure you want to recharge ${phoneToData} with 1GB at N1000?`) == true) {
+                    alert(`${phoneToData} recharged with 1GB successfully`);
+                } else {
+                    alert("Transaction Cancelled");
+                }
+            } else if (dataOptionAnswer == 4) {
+                if (confirm(`Are you sure you want to recharge ${phoneToData} with 2GB at N1500?`) == true) {
+                    alert(`${phoneToData} recharged with 2GB successfully`);
+                } else {
+                    alert("Transaction Cancelled");
+                }
+            } else {
+                if (dataOptionAnswer) {
+                    alert("Invalid Option Selected");
+                    alert("Transaction Cancelled");
+                } else {
+                    alert("Transaction Cancelled");
+                }
+            }
+        } else {
+            alert("Transaction Cancelled");
+        }
+    break;
+    case 4: // Option For Transfer  
+    let bankList = `Select To bank 
+1. GTBank Plc
+2. First Bank Plc
+3. Wema Bank Plc
+4. Access Bank Plc
+    `;
+            let selectBank = Number(prompt(bankList));
+            if (selectBank) {
+                let selectAccountNumber = Number(prompt('Enter Account Number'));
+                if (selectAccountNumber) {
+                    let amountToTransfer = Number(prompt('Enter Amount to Transfer'));
+                    if (amountToTransfer) {
+                        alert(`N${amountToTransfer} transferred to ${selectAccountNumber} successfully`);
+                    } else {
+                        alert("Transaction Canceled");
+                    }
+                } else {
+                    alert("Transaction Canceled");
+                }
+            } else {
+                alert("Transaction Canceled");
+            }
+    break;
+    default:
+        alert("Invalid Option Selected");
+        alert("Transaction Cancelled");
+    break;
+} 
+    </script>
+</body>
+
+</html>
