@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shams TIIDELAB</title>
+</head>
+<body> 
+<!-- 
+Write a program that uses console.log to print the numbers 0 through 200, with two exceptions. For numbers divisible by 6, print "Shams" instead of the number, and for numbers divisible by 8 (and not 6), print "TIIDELAB" instead of the number. when you have that working, modify your program to print "ShamsTIIDELAB" for numbers that are both divisible by both 6 and 8 .
+-->
+<script>
+    for (let i = 0; i <= 200; i++) {
+        if (i % 6 == 0 && i % 8 == 0) {
+            console.log("ShamsTIIDELAB");
+        } else if (i % 6 == 0) {
+            console.log("Shams");
+        } else if (i % 8 == 0) {
+            console.log("TIIDELAB");
+        } else {
+            console.log(i);
+        }
+    }
+</script>
+
+</body>
+</html>

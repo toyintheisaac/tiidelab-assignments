@@ -25,15 +25,8 @@ let allBanks = {'1':'Kuda Microfinance Bank', '2':'First Bank Plc', '3' : 'Wema 
 let bankTransferType = {'1':'GTBank Plc', '2':'Other Banks'};
 
 
-
-// function getUssdCode(number){
-    function getUssdCode(code){
-        if(code.value=='*737#'){
-            display();
-        }else{
-            alert('Only *737# is allowed');
-        }
-    }
+// function to get ussd code from user
+let getUssdCode = code => code.value=='*737#'? display(): alert('Only *737# is allowed');
 
 
 // Root Function to display USSD Transaction
@@ -124,7 +117,7 @@ function airtimeAmount(number){
                     return alert(`You Have Successfully recharge ${phoneToRecharge} with N${amountToRecharge}`);
                 }else{
                     return  alert("Transaction Cancelled");
-                } 
+                }
             }else{
                 alert("Minimum recharge is N50");
                 return   airtimeAmount(phoneToRecharge);
@@ -226,7 +219,7 @@ function transfer(bankToSendTransfer){
         return transfer(selectedBank); // initialize transfer function if invalid account number entered (Recursion)
     }
 }
-function getDummyAccountName(){
+let getDummyAccountName = function(){
     return "Isaac Toyin";
 }
 

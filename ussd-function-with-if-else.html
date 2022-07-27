@@ -42,14 +42,9 @@ function display(){
     }
 }
 
-// function getUssdCode(number){
-function getUssdCode(code){
-    if(code.value=='*737#'){
-        display();
-    }else{
-        alert('Only *737# is allowed');
-    }
-}
+
+// function to get ussd code from user
+    let getUssdCode = code => code.value=='*737#'? display(): alert('Only *737# is allowed');
 
 
 // Function to get Data From User
@@ -219,9 +214,10 @@ function transfer(bankToSendTransfer){
         return transfer(selectedBank); // initialize transfer function if invalid account number entered (Recursion)
     }
 }
-function getDummyAccountName(){
+let getDummyAccountName = function(){
     return "Isaac Toyin";
 }
+
 
     </script>
 </body>
