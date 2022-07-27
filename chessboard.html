@@ -22,15 +22,15 @@
 <script>
     function chessboard(size){
         let board = "";
-        for (let i = 0; i < size; i++){
-            for (let j = 0; j < size; j++){
-                if ((i + j) % 2 == 0){
+        for (let i = 0; i < size; i++){ // loop through rows
+            for (let j = 0; j < size; j++){ // loop through columns
+                if ((i + j) % 2 == 0){ // check if row + column is even
                     board += " ";
                 }else{
                     board += "#";
                 }
             }
-            board += "\n";
+            board += "\n"; // add newline after each row
         }
         return board;
     }
