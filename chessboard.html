@@ -11,8 +11,13 @@
     write a program that creates a string that represents an 8×8 grid of characters. using newline characters to separate lines. at each position of the grid there is either a space or a “#” character. The characters should form a chessboard.
     passing this string to console.log should show something like this:
     # # # #
+     # # # # 
     # # # #
+     # # # # 
     # # # #
+     # # # # 
+    # # # #
+     # # # # 
 -->
 
 <a href="https://tiidelab-assignment.netlify.app" style="padding:20px;margin:auto;display:block;text-align:center;font-size:24px;"> Click Here to view on Netlify</a>
@@ -22,8 +27,8 @@
 <script>
     function chessboard(size){
         let board = "";
-        for (let i = 0; i < size; i++){ // loop through rows
-            for (let j = 0; j < size; j++){ // loop through columns
+        for (let i = 0; i < size; i++){ // loop through rows        0           1               2 3 4 5 6 7
+            for (let j = 0; j < size; j++){ // loop through columns             012347      01234566
                 if ((i + j) % 2 == 0){ // check if row + column is even
                     board += " ";
                 }else{
