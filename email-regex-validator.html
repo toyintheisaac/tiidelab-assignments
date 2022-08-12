@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Validator</title>
+    <style>
+        .center{
+            display:flex;
+            flex-direction: column;
+            justify-content:center;
+            align-items:center;
+            height:50vh;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body> 
+        <div class="center">
+            <input type="text" name="" id="email"> 
+            <div class="output"></div> 
+            <button id="check">Check 1</button> 
+            <button id="check2">Check 2</button> 
+            <button id="check3">Check 3</button> 
+        </div>
+<script>
+    let email = document.getElementById('email');
+    let output = document.querySelector('.output');
+    let check = document.querySelector('#check');
+    let check2 = document.querySelector('#check2');
+    let check3 = document.querySelector('#check3');
+ 
+    check.addEventListener('click', function(){
+        // event.preventDefault();
+        let email = document.getElementById('email').value;
+        let regex = /^[\w-\.]+@([\w]+\.)+[\w]{2,4}$/g;
+        if(regex.test(email)==true){
+            let newEmail = '';  
+            newEmail = email.replace(/[\w-]/g, '.'); 
+            output.innerHTML = newEmail;
+        }else{ 
+            output.innerHTML = 'Invalid Email';
+        }
+    }); 
+    
+    check2.addEventListener('click', function(){
+        // event.preventDefault();
+        let email = document.getElementById('email').value;
+        let regex = /^[\w-\.]+@([\w]+\.)+[\w]{2,4}$/g;
+        if(regex.test(email)==true){  
+           let emailSplit = email.split('@');
+           let newEmail = emailSplit[0].replace(/[\w-]/g, '.');
+            output.innerHTML = `${newEmail}@${emailSplit[1]}`;
+        }else{
+            output.innerHTML = 'Invalid Email';
+        } 
+    });  
+ 
+  
+    check3.addEventListener('click', function(){
+        // event.preventDefault();
+        let email = document.getElementById('email').value;
+        let regex = /^[\w-\.]+@([\w]+\.)+[\w]{2,4}$/g;
+        if(regex.test(email)==true){  
+           let emailSplit = email.split('@');
+           let newEmail = '';  
+               for(let i=0; i<emailSplit[1].length; i++){
+                    if(i==0){
+                        newEmail += emailSplit[1][0];
+                    }else if(emailSplit[1][i]=='.'){
+                        newEmail += emailSplit[1][i] + emailSplit[1][i+1];
+                    }else{
+                        newEmail +='.';
+                    }
+                } 
+            output.innerHTML = emailSplit[0].replace(/[\w]/g,'.')+'@'+newEmail.slice(0,-1);
+        }else{
+
+            output.innerHTML = 'Invalid Email';
+        }
+    });  
+</script> 
+</body>
+</html>
